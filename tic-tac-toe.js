@@ -19,21 +19,23 @@ function drawBoard(gameBoard) {
   return board;
 }
 function playerMove(playerNum, move) {
-  let moveCoordinates = move.split(',');
-  for (let i=0; i < moveCoordinates.length; i++) {
-    moveCoordinates[i] = moveCoordinates[i].trim();
-  }
+  const regCap = /([0-2])/g;
+  let capture = move.match(regCap);
+  console.log(capture);
+  let row = move.match(regCap)[0];
+  let col = move.match(regCap)[1];
 
-  if (gameBoard[moveCoordinates[0]][moveCoordinates[1]] === ' ') {
-    gameBoard[moveCoordinates[0]][moveCoordinates[1]] = playerTable[playerNum];
+  // Checks to see if !0-2 was entered in each coordinate
+   if (gameBoard[row][col] === ' ' && row && col) {
+    gameBoard[row][col] = playerTable[playerNum];
     if (curPlayer === 0) {
       curPlayer = 1;
     } else {
       curPlayer = 0;
     }
   } else {
-    myConsole.printLine('Space Taken. Pick again.\n');
-    doTurn();
+    myConsole.printLine('\nSpace Taken or Not enough characters. Pick again.');
+    return doTurn();
   }
 }
 function getMove(cb) {
