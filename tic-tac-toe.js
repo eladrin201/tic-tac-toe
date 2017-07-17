@@ -68,9 +68,13 @@ function playerMove(playerNum, move) {
 }
 function getMove(cb) {
   myConsole.getLine('Player ' + playerTable[curPlayer] + ' Pick a space (row, column):', (move) => {
+    if (move.toLowerCase() === 'exit' || move.toLowerCase() === 'quit') {
+      myConsole.printLine('Player ' + playerTable[curPlayer] + ' quit the game.');
+      process.exit(0);
+    }
     playerMove(curPlayer, move);
     myConsole.printLine(drawBoard());
-    return cb(!turnCheck());
+    return cb(turnCheck());
   });
 }
 function turnCheck() {
@@ -87,7 +91,7 @@ function turnCheck() {
       break;
     }
   }
-  return moreMoves;
+  return !moreMoves;
 }
 
 myConsole.clear();
